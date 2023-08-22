@@ -59,35 +59,59 @@
 // } 
 
 class Calculator{
+    
+    ui = document.getElementById('userinput')
 
     displayvals(disval){
-       document.getElementById('userinput').value += disval 
-      
+       this.ui.value += disval 
     }
-
-   clear(){
-       document.getElementById('userinput').value = null
+    clear(){
+       this.ui.value = null
    }
-
     equal(){
-        document.getElementById('userinput').value = eval(document.getElementById('userinput').value)
+       this.ui.value = eval(this.ui.value)
     } 
+    checkdot(){
+        if(this.ui.value.includes(".")){
+            cnt = 1
+        }else{
+            cnt = 0
+        }
+    }
 } 
 
 const cal = new Calculator();
+let cnt = 0;
+const x = document.querySelectorAll(".btn")
 
-function btnnum(val){
-    cal.displayvals(val.innerHTML);
-}
-// function opbtn(op){
-//     cal.storeval(op.innerHTML);
-// }
-document.getElementById('equale').onclick = () => {
-    cal.equal();
-}
-document.getElementById('clear').onclick = () => {
-    cal.clear();
-}
+// console.log(document.querySelectorAll(".btn"))
 
+x.forEach((v, i, arr) => {
+    const btn = v
+    btn.addEventListener("click", (e) => {
+        const val = e.target.dataset.martin
+        if(val == "clear"){
+            cnt = 0
+            cal.clear();
+        }else if(val == "equal"){    
+            cal.equal();
+            cal.checkdot();
+        }
+        else if(val == "."){  
+            if(cnt == 0){
+                cnt = 1
+                cal.displayvals(e.target.dataset.martin);
+            }else{
+
+            }     
+        }
+        else if(val == "/" || val == "-" || val == "+" || val == "*"){
+            cnt = 0
+            cal.displayvals(e.target.dataset.martin);
+        }
+        else { cal.displayvals(e.target.dataset.martin); }
+        
+    })
+})
 
 
